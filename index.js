@@ -32,7 +32,9 @@ app.post("/chosen-currency", async (req, res) => {
         });
         res.render("result.ejs", {
             currencyList: currencies,
-            content: result.data });
+            content: result.data,
+            selectedCurrency: selectedCurrency,
+         });
         console.log(result);
     } catch(error) {
         res.status(404).send(error.message);
@@ -67,6 +69,7 @@ app.post("/valuta-valtas", async (req, res) => {
             currencyList: currencies,
             arfolyam: oneRate,
             vegsoOsszeg: convertedAmount,
+            amount: amount,
         });
     } catch(error) {
         res.status(404).send(error.message);

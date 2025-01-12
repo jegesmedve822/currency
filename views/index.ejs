@@ -13,7 +13,10 @@
         <label for="currency">Valuta:</label>
         <select name="currency" id="currency">
             <% currencyList.forEach(cur => { %>
-                <option value="<%= cur %>"><%= cur %></option>
+                <option
+                 value="<%= cur %>"
+                 >
+                 <%= cur %></option>
             <% }); %>
         </select>
         <button type="submit">Kiválaszt</button>
@@ -41,6 +44,7 @@
         min="1" 
         step="0.01" 
         required
+        value="<%= typeof amount !== 'undefined' ? amount : '' %>"
       />
       
       <!-- Forrásvaluta (valuta-1) -->
@@ -54,7 +58,8 @@
         <% currencyList.forEach(cur => { %>
           <option
             value="<%= cur %>"
-            
+            <%=(typeof valutaEgy !== 'undefined' && cur === valutaEgy) ? 'selected' : '' %>
+
             >
             <%= cur %>
         </option>
@@ -72,7 +77,7 @@
         <% currencyList.forEach(cur => { %>
           <option
            value="<%= cur %>"
-           
+           <%= (typeof valutaKetto !== 'undefined' && cur === valutaKetto) ? 'selected' : '' %>
            >
            <%= cur %>
         </option>

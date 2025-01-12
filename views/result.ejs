@@ -13,7 +13,11 @@
         <label for="currency">Valuta:</label>
         <select name="currency" id="currency">
             <% currencyList.forEach(cur => { %>
-                <option value="<%= cur %>"><%= cur %></option>
+                <option value="<%= cur %>"
+                    <%= (cur === selectedCurrency) ? 'selected' : '' %>
+                >
+                    <%= cur %>
+                </option>
             <% }); %>
         </select>
         <button type="submit">Kiválaszt</button>
