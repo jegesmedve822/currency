@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange-rates</title>
+    <link rel="stylesheet" href="/stylesheet.css">
+</head>
+<body>
+    <h1>Válassz egy valutát!</h1>
+
+    <form action="/chosen-currency" method="POST">
+        <label for="currency">Valuta:</label>
+        <select name="currency" id="currency">
+            <% currencyList.forEach(cur => { %>
+                <option value="<%= cur %>"><%= cur %></option>
+            <% }); %>
+        </select>
+        <button type="submit">Kiválaszt</button>
+    </form>
+    <% if(locals.content) { %> 
+        <h2><%= content %></h2>
+    <% } %>
+
+
+    <h1>Átváltás</h1>
+
+
+<form action="/valuta-valtas" method="POST">
+    <fieldset>
+      <!-- A legend egy rövid cím a fieldset számára -->
+      <legend>Valutaváltás</legend>
+      
+      <!-- Átváltandó összeg -->
+      <label for="amount">Átváltandó összeg</label>
+      <input 
+        type="number" 
+        name="amount" 
+        id="amount" 
+        placeholder="Pl. 100" 
+        min="1" 
+        step="0.01" 
+        required
+      />
+      
+      <!-- Forrásvaluta (valuta-1) -->
+      <label for="valuta-1">Egyik valuta</label>
+      <select 
+        name="valuta-1" 
+        id="valuta-1" 
+        class="currency"
+        required
+      >
+        <% currencyList.forEach(cur => { %>
+          <option
+            value="<%= cur %>"
+            
+            >
+            <%= cur %>
+        </option>
+        <% }); %>
+      </select>
+      
+      <!-- Célszerinti valuta (valuta-2) -->
+      <label for="valuta-2">Másik valuta</label>
+      <select 
+        name="valuta-2" 
+        id="valuta-2" 
+        class="currency" 
+        required
+      >
+        <% currencyList.forEach(cur => { %>
+          <option
+           value="<%= cur %>"
+           
+           >
+           <%= cur %>
+        </option>
+        <% }); %>
+      </select>
+      
+      <button type="submit">Átváltás</button>
+    </fieldset>
+  </form>
+
+  <% if(locals.arfolyam && locals.vegsoOsszeg && locals.valutaEgy && locals.valutaKetto) { %>
+    <h2>Árfolyam( <%= valutaEgy %>/<%= valutaKetto %>): <%= arfolyam %></h2>
+    <h2>Kapott összeg: <%= vegsoOsszeg %> <%= valutaKetto %></h2>
+ <% } %>
+  
+</body>
+</html>

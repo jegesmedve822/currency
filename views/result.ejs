@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange-rates</title>
+    <link rel="stylesheet" href="/stylesheet.css">
+</head>
+<body>
+    <h1>Válassz egy valutát!</h1>
+
+    <form action="/chosen-currency" method="POST">
+        <label for="currency">Valuta:</label>
+        <select name="currency" id="currency">
+            <% currencyList.forEach(cur => { %>
+                <option value="<%= cur %>"><%= cur %></option>
+            <% }); %>
+        </select>
+        <button type="submit">Kiválaszt</button>
+    <% if(locals.content && locals.content.conversion_rates) { %> 
+        <h2>Árfolyamok</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Valuta</th>
+                    <th>Árfolyam</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let currencyCode in content.conversion_rates) { %>
+                    <tr>
+                        <td><%= currencyCode %></td>
+                        <td><%= content.conversion_rates[currencyCode] %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
+</html>
