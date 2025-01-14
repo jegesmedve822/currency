@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Exchange-rate</title>
+  <link rel="stylesheet" href="/public/header.css">
+</head>
+<body>
+    <header>
+        <!-- Felső sáv (topbar) -->
+        <div class="topbar">
+          <div class="logo">
+            <img class="logo" src="/public/images/dollar-sign.png" alt="Dollár jel ami a weboldal logója">
+          </div>
+          <!-- Hamburger ikon - mobilon látszik, kattintásra mutatjuk/rejtjük a menüt -->
+          <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+          <!-- Menü - desktopon látszik, mobilon rejtve és abszolút helyzetű lesz -->
+          <nav class="dropdown-menu" id="dropdownMenu">
+            <ul>
+              <li><a class="menu-icon" href="https://www.portfolio.hu/deviza">Portfolio</a></li>
+              <li><a class="menu-icon"  href="https://telex.hu/cimke/deviza">Telex</a></li>
+              <li><a class="menu-icon" href="https://hvg.hu/cimke/deviza">HVG</a></li>
+              <li><a class="menu-icon" href="https://hold.hu/holdblog/menu/deviza/">Holdblog</a></li>
+            </ul>
+            <button class="btn log-in">Log in</button>
+            <button class="btn sign-up">Sign up</button>
+
+          </nav>
+
+        </div>
+      </header>
+
+
+  <script src="/public/header.js"></script>
+</body>
+</html>

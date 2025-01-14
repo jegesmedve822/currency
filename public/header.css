@@ -1,0 +1,163 @@
+    /* -- Alapbeállítások -- */
+    * {
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+  
+      /* -- HEADER SZEKCIÓ -- */
+      header {
+        position: relative; /* fontos, hogy a menü abszolút pozícionálása ehhez képest történjen */
+        background-color: #040574;
+        color: #fff;
+      }
+  
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        /* Ez a sáv fix magasságú, NEM fog lenyílni a menü méretéhez */
+      }
+  
+      .logo {
+        height: 50px;
+      }
+  
+      /* A hamburger ikon – mobilon használjuk, desktopon rejtjük. */
+      .hamburger {
+        cursor: pointer;
+        font-size: 1.5rem;
+        display: none; /* Alapból rejtve (desktop nézet) */
+      }
+  
+      /* -- A lenyíló (dropdown) menü -- */
+      .dropdown-menu {
+        position: absolute;  /* Nem veszi fel a helyet, a topbar alatt „lebeg” */
+        top: 50px;           /* hozzáigazítjuk a topbar magasságához */
+        right: 0;
+        width: auto;
+        background-color: #040574;
+        display: none;       /* Alapból rejtett (mobilon) */
+        padding: 1.5rem 0.5rem;
+        border-radius: 10px;
+
+      }
+  
+      .dropdown-menu ul {
+        list-style: none;
+        margin-right: 2rem;
+    
+      }
+  
+      .dropdown-menu li {
+        border-bottom: 1px solid #555; 
+        margin: 0.5rem 0;
+      }
+  
+      .dropdown-menu a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 0.2rem 0;
+      }
+
+      .btn {
+        height: 2rem;
+        width: 6rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: 
+          background-color 0.3s ease, 
+          color 0.3s ease, 
+          transform 0.2s ease;    /* A kicsi animációnak szükséges */
+      }
+      
+
+
+    .btn.log-in {
+        background-color: #fff;
+        color: #040574;
+
+      }
+    .btn.sign-up {
+        background-color: #fff;
+        color:#040574;
+        margin-left: 1rem;
+
+      }
+    .btn.log-in:hover {
+        background-color: #007BFF;   /* Fehér háttér */
+        color: #fff;          /* Kék szöveg */
+        transform: scale(1.05);   /* Kicsit nagyít hoverkor */
+      }
+
+      .btn.sign-up:hover {
+        background-color:#007BFF ;   /* Fehér háttér */
+        color:#fff ;          /* Kék szöveg */
+        transform: scale(1.05);   /* Kicsit nagyít hoverkor */
+      }
+
+        
+
+
+  
+      /* -- DESKTOP NÉZET (769px felett) -- */
+      @media (min-width: 769px) {
+        .hamburger {
+          display: none; /* nagy kijelzőn ne legyen hamburger ikon */
+        }
+        .dropdown-menu {
+          position: static;   /* nem abszolút, belefolyik a topbar-ba */
+          display: flex;      /* látszódjon mindig */
+          align-items: center;
+          justify-content: flex-end;
+          padding: 0;         /* ízlés szerint */
+        }
+        .dropdown-menu ul {
+          display: flex;
+        }
+        .dropdown-menu li {
+          border: none;
+          margin: 0 1rem;
+        }
+
+        .btn {
+            height: 2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 
+              background-color 0.3s ease, 
+              color 0.3s ease, 
+              transform 0.2s ease;    /* A kicsi animációnak szükséges */
+          }
+
+      }
+  
+      /* -- MOBIL NÉZET (max-width: 768px) -- */
+      @media (max-width: 768px) {
+        .hamburger {
+          display: block;  /* mobilon jelenjen meg a hamburger gomb */
+        }
+        .dropdown-menu {
+          /* Alapból display: none; a fentebb leírt szabály miatt */
+          flex-direction: column;  /* egymás alá kerülnek a li-k */
+        }
+      }
+  
+      /* -- Tetszőleges footerek, main, stb. -- */
+      main {
+        padding: 1rem;
+      }
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background-color: #f0f0f0;
+      }
