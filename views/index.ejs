@@ -6,92 +6,126 @@
     <title>Exchange-rates</title>
     <link rel="stylesheet" href="/stylesheet.css">
 </head>
+
 <body>
-    <h1>Válassz egy valutát!</h1>
+<div class="wrapper">
+  <%-include("header.ejs")%>
+<div class="content">
+      <form action="/chosen-currency" method="POST">
+              <h1>Válassz egy valutát!</h1>
+          <label for="currency">Árfolyamok megjelenítése:</label>
+          <select name="currency" id="currency">
+              <% currencyList.forEach(cur => { %>
+                  <option
+                  value="<%= cur %>"
+                  >
+                  <%= cur %></option>
+              <% }); %>
+          </select>
+          <button class= "submit" type="submit">Kiválaszt</button>
+      </form>
+      <% if(locals.content) { %> 
+          <h2><%= content %></h2>
+      <% } %>
 
-    <form action="/chosen-currency" method="POST">
-        <label for="currency">Valuta:</label>
-        <select name="currency" id="currency">
-            <% currencyList.forEach(cur => { %>
-                <option
-                 value="<%= cur %>"
-                 >
-                 <%= cur %></option>
-            <% }); %>
+
+
+
+
+  <form class="valtas" action="/valuta-valtas" method="POST">
+          <h1>Átváltás</h1>
+      <fieldset>
+
+        <!-- Átváltandó összeg -->
+        <label for="amount">Átváltandó összeg</label>
+        <input 
+          type="number" 
+          name="amount" 
+          id="amount" 
+          placeholder="Pl. 100" 
+          min="1" 
+          step="0.01" 
+          required
+          value="<%= typeof amount !== 'undefined' ? amount : '' %>"
+        />
+        
+        <!-- Forrásvaluta (valuta-1) -->
+        <label for="valuta-1">Egyik valuta</label>
+        <select 
+          name="valuta-1" 
+          id="valuta-1" 
+          class="currency"
+          required
+        >
+          <% currencyList.forEach(cur => { %>
+            <option
+              value="<%= cur %>"
+              <%=(typeof valutaEgy !== 'undefined' && cur === valutaEgy) ? 'selected' : '' %>
+
+              >
+              <%= cur %>
+          </option>
+          <% }); %>
         </select>
-        <button type="submit">Kiválaszt</button>
-    </form>
-    <% if(locals.content) { %> 
-        <h2><%= content %></h2>
-    <% } %>
-
-
-    <h1>Átváltás</h1>
-
-
-<form action="/valuta-valtas" method="POST">
-    <fieldset>
-      <!-- A legend egy rövid cím a fieldset számára -->
-      <legend>Valutaváltás</legend>
-      
-      <!-- Átváltandó összeg -->
-      <label for="amount">Átváltandó összeg</label>
-      <input 
-        type="number" 
-        name="amount" 
-        id="amount" 
-        placeholder="Pl. 100" 
-        min="1" 
-        step="0.01" 
-        required
-        value="<%= typeof amount !== 'undefined' ? amount : '' %>"
-      />
-      
-      <!-- Forrásvaluta (valuta-1) -->
-      <label for="valuta-1">Egyik valuta</label>
-      <select 
-        name="valuta-1" 
-        id="valuta-1" 
-        class="currency"
-        required
-      >
-        <% currencyList.forEach(cur => { %>
-          <option
+        
+        <!-- Célszerinti valuta (valuta-2) -->
+        <label for="valuta-2">Másik valuta</label>
+        <select 
+          name="valuta-2" 
+          id="valuta-2" 
+          class="currency" 
+          required
+        >
+          <% currencyList.forEach(cur => { %>
+            <option
             value="<%= cur %>"
-            <%=(typeof valutaEgy !== 'undefined' && cur === valutaEgy) ? 'selected' : '' %>
-
+            <%= (typeof valutaKetto !== 'undefined' && cur === valutaKetto) ? 'selected' : '' %>
             >
             <%= cur %>
-        </option>
-        <% }); %>
-      </select>
+          </option>
+          <% }); %>
+        </select>
+        
+        <button class="submit" type="submit">Átváltás</button>
+      </fieldset>
+    
+    <div class="result">
+      <% if(locals.arfolyam && locals.vegsoOsszeg && locals.valutaEgy && locals.valutaKetto) { %>
+        <h2>Árfolyam<span class="currency">( <%= valutaEgy %>/<%= valutaKetto %>):</span> <span class="number"><%= arfolyam %></span> </h2>
+        <h2>Kapott összeg:<span class="number"> <%= vegsoOsszeg %></span> <span class="number"><%= valutaKetto %></span></h2>
+      <% } %>
+    </div>
+    </form>
+</div>
+</div>
+<div id="subscribe-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">x</span>
+    <h2>Iratkozz fel a hírlevelünkre!</h2>
+    <p>Értesülj elsőkézből a legfontosabb árfolyamokat érintő hírekről!</p>
+    <form>
+      <input type="email" placeholder="Add meg az e-mail címed" required />
       
-      <!-- Célszerinti valuta (valuta-2) -->
-      <label for="valuta-2">Másik valuta</label>
-      <select 
-        name="valuta-2" 
-        id="valuta-2" 
-        class="currency" 
-        required
-      >
-        <% currencyList.forEach(cur => { %>
-          <option
-           value="<%= cur %>"
-           <%= (typeof valutaKetto !== 'undefined' && cur === valutaKetto) ? 'selected' : '' %>
-           >
-           <%= cur %>
-        </option>
-        <% }); %>
-      </select>
+      <!-- Adatkezelési tájékoztató + checkbox -->
+      <p>
+        <input type="checkbox" id="accept-terms" />
+        <label for="accept-terms">
+          Elolvastam és elfogadom az 
+          <a href="/adatkezeles" target="_blank">Adatkezelési Tájékoztatóban</a>
+          foglaltakat
+        </label>
+      </p>
       
-      <button type="submit">Átváltás</button>
-    </fieldset>
-  </form>
+      <!-- A gomb alapból le van tiltva -->
+      <button class="submit" type="submit" id="subscribe-button" disabled>Feliratkozás</button>
+    </form>
+  </div>
+</div>
+<script src="/js/popup.js"></script>
 
-  <% if(locals.arfolyam && locals.vegsoOsszeg && locals.valutaEgy && locals.valutaKetto) { %>
-    <h2>Árfolyam( <%= valutaEgy %>/<%= valutaKetto %>): <%= arfolyam %></h2>
-    <h2>Kapott összeg: <%= vegsoOsszeg %> <%= valutaKetto %></h2>
- <% } %>
-  
+<script src="/js/popup.js"></script>
 </body>
+<footer class = "footer">
+   <%-include("footer.ejs")%>
+</footer>
 </html>

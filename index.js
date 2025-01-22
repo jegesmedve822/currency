@@ -76,6 +76,35 @@ app.post("/valuta-valtas", async (req, res) => {
     }
 });
 
+//exportálás
+app.get("/chosen-currency/export", async (req, res)=>{
+    try{
+        const selectedCurrency = req.query.currency;
+        const result = await axios.get(API_URL + "/" + selectedCurrency, {
+            params: {
+                apiKey: API_KEY,
+            },
+        });
+        const conversionRates = result.data.conversion_rates;
+        let csvContent = "Valuta,Árfolyam\n";
+        for (const [currencyCode, rate] of Object.entries(conversionRates)) {
+            csvContent += `${currencyCode},${rate}\n`;
+        }
+        res.setHeader("Content-Type", "text/csv");
+        res.setHeader("Content-Disposition", "attachment; filename-arfolyamok.csv");
+        return res.send(csvContent);
+    } catch(error) {
+        console.error("Error details: ", error);
+        return res.status(500).send("Hiba történt a .CSV export során");
+    }
+});
+
+//adatkezelési tájékoztató renderelése
+app.get("/adatkezeles", (req, res)=> {
+    res.render("adatkezeles.ejs");
+});
+
+
 
 
 

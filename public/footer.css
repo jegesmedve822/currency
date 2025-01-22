@@ -1,0 +1,29 @@
+footer{
+    background-color: #b3adad;
+    height: 20%;
+}
+.link{
+    text-decoration: none;
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+@media (min-width: 769px) {
+
+    .contact{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px){
+
+    .contact{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
